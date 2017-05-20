@@ -1,0 +1,35 @@
+﻿<Properties StartupConfiguration="{6D78523C-60F5-43D2-963C-B94FB2932AE3}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="urishell-core Status">
+    <Files>
+      <File FileName="urishell-core Status" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="urishell-core" expanded="True" selected="True">
+            <Node name="src" expanded="True">
+              <Node name="UriShell.Shared" expanded="True" />
+            </Node>
+            <Node name="test" expanded="True">
+              <Node name="UriShell.Shared.Test" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.UnitTesting.TestPad">
+        <State name="__root__">
+          <Node name="urishell-core" expanded="True" selected="True">
+            <Node name="test" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.test.UriShell.Shared.Test PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>

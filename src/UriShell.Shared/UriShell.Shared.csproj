@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <ReleaseVersion>0.0.1</ReleaseVersion>
+    <SynchReleaseVersion>false</SynchReleaseVersion>
+    <PackageProjectUrl>https://github.com/tst-devs/UriShell</PackageProjectUrl>
+    <Summary>Shared interface library that defines services in a UriShell environment</Summary>
+    <Title>UriShell</Title>
+    <RootNamespace>UriShell</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType></DebugType>
+    <DocumentationFile></DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Shell\" />
+    <Folder Include="Shell\Registration\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+</Project>
