@@ -3,7 +3,7 @@ using NSubstitute;
 
 namespace UriShell.Shell
 {
-	public class ShellExtensionsTests
+	public class ShellExtensionsTest
 	{
         [Fact]
 		public void ClosesResolvedListUsingShellCloseResolvedForEachResolved()

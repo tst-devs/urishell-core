@@ -3,7 +3,7 @@ using FluentAssertions;
 
 namespace UriShell.Shell
 {
-	public class UriModuleItemResolverKeyTests
+	public class UriModuleItemResolverKeyTest
 	{
         [Fact]
 		public void EqualsIndependentOfCase()

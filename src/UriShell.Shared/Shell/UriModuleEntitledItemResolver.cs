@@ -12,7 +12,7 @@ namespace UriShell.Shell
 		}
 
 		public object Resolve(Uri uri, UriAttachmentSelector attachmentSelector)
-		{
+        {
 			var uriBuilder = new ShellUriBuilder(uri);
 			var title = uriBuilder.Parameters["title"] ?? uri.ToString();
 

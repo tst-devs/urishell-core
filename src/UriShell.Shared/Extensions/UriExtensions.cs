@@ -15,7 +15,7 @@ namespace UriShell.Extensions
                 throw new InvalidOperationException("Can't validate the scheme; URI isn't absolute.");
 			}
 
-			return string.CompareOrdinal(uri.Scheme, Settings.Instance.Scheme) == 0;
+			return string.CompareOrdinal(uri.Scheme, UriShellSettings.Instance.Scheme) == 0;
 		}
 	}
 }

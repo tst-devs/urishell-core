@@ -6,8 +6,7 @@ namespace UriShell.Shell
 	{
 		public ResolvedIdBroadcastArgs(int resolvedId)
 		{
-            ShellUriBuilder.CheckOwnerId(resolvedId);
-			ResolvedId = resolvedId;
+            ResolvedId = resolvedId;
 		}
 
 		public int ResolvedId { get; private set; }

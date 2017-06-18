@@ -6,19 +6,11 @@ namespace UriShell.Shell
 {
     public sealed partial class ShellUriBuilder
     {
-        public const int MinResolvedId = ushort.MinValue;
-
-        public static readonly int MaxResolvedId = ushort.MaxValue;
-
         private string _placement = string.Empty;
-
-        private int _ownerId;
 
         private string _module = string.Empty;
 
         private string _item = string.Empty;
-
-        private readonly Dictionary<string, string> _parameters = new Dictionary<string, string>();
 
         public ShellUriBuilder()
         {
@@ -58,7 +50,7 @@ namespace UriShell.Shell
 			get
 			{
 				var ub = new UriBuilder(
-					Settings.Instance.Scheme,
+					UriShellSettings.Instance.Scheme,
 					Placement,
 					OwnerId,
 					$"/{Module}/{Item}");
@@ -77,19 +69,6 @@ namespace UriShell.Shell
             set
             {
                 _placement = value ?? string.Empty;
-            }
-        }
-
-        public int OwnerId
-        {
-            get
-            {
-                return _ownerId;
-            }
-            set
-            {
-                CheckOwnerId(value);
-                _ownerId = value;
             }
         }
 
@@ -117,89 +96,87 @@ namespace UriShell.Shell
             }
         }
 
-        public IDictionary<string, string> Parameters
-        {
-            get
-            {
-                return _parameters;
-            }
-		}
+        public IDictionary<string, string> Parameters { get; } = new Dictionary<string, string>();
 
-        internal static void CheckOwnerId(int ownerId)
-        {
-			if (ownerId >= MinResolvedId && ownerId <= MaxResolvedId)
-			{
-                return;
-			}
-
-            throw new ArgumentOutOfRangeException(nameof(OwnerId));
-        }
+		public int OwnerId { get; set; }
 
 		private void ParametersFromUriQuery(string query)
 		{
-			if (query.Length == 0)
+            if (string.IsNullOrEmpty(query) || query == "?")
 			{
 				return;
 			}
 
-			var i = 1;
-
-			while (i < query.Length)
+			var scanIndex = 0;
+			if (query[0] == '?')
 			{
-				var si = i;
-				var ti = -1;
+				scanIndex = 1;
+			}
 
-				while (i < query.Length)
+			var textLength = query.Length;
+			var equalIndex = query.IndexOf('=');
+			if (equalIndex == -1)
+			{
+				equalIndex = textLength;
+			}
+
+			while (scanIndex < textLength)
+			{
+				var delimiterIndex = query.IndexOf('&', scanIndex);
+				if (delimiterIndex == -1)
 				{
-					var ch = query[i];
-
-					if (ch == '&')
-					{
-						break;
-					}
-
-					if (ch == '=' && ti < 0)
-					{
-						ti = i;
-					}
-
-					i++;
+					delimiterIndex = textLength;
 				}
 
-				string name = null;
-				string value;
-
-				if (ti >= 0)
+				if (equalIndex < delimiterIndex)
 				{
-					name = query.Substring(si, ti - si);
-					value = query.Substring(ti + 1, i - ti - 1);
+					while (scanIndex != equalIndex && char.IsWhiteSpace(query[scanIndex]))
+					{
+						scanIndex++;
+					}
+
+					var name = query
+                        .Substring(scanIndex, equalIndex - scanIndex)
+                        .Replace('+', ' ');
+					var value = query
+                        .Substring(equalIndex + 1, delimiterIndex - equalIndex - 1)
+                        .Replace('+', ' ');
+                    
+                    Parameters[Uri.UnescapeDataString(name)] = Uri.UnescapeDataString(value);
+
+					equalIndex = query.IndexOf('=', delimiterIndex);
+					if (equalIndex == -1)
+					{
+						equalIndex = textLength;
+					}
 				}
 				else
 				{
-					value = query.Substring(si, i - si);
+					if (delimiterIndex > scanIndex)
+					{
+						Parameters[query.Substring(scanIndex, delimiterIndex - scanIndex)] = string.Empty;
+					}
 				}
 
-				_parameters.Add(name, Uri.UnescapeDataString(value));
-
-				i++;
+				scanIndex = delimiterIndex + 1;
 			}
 		}
 
 		private string ParametersToUriQuery()
 		{
-			if (_parameters.Count == 0)
+			if (Parameters.Count == 0)
 			{
 				return string.Empty;
 			}
 
 			var sb = new StringBuilder();
-			foreach (string key in _parameters.Keys)
+            foreach (var p in Parameters)
 			{
 				if (sb.Length > 0)
 				{
 					sb.Append('&');
 				}
-				sb.AppendFormat("{0}={1}", key, Uri.EscapeDataString(_parameters[key]));
+                sb.Append(string.Concat(p.Key, "=", Uri.EscapeDataString(p.Value)));
 			}
 
 			return sb.ToString();
