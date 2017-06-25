@@ -20,6 +20,5 @@
   <ItemGroup>
     <Folder Include="Shell\" />
     <Folder Include="Shell\Registration\" />
-    <Folder Include="Extensions\" />
   </ItemGroup>
 </Project>

@@ -45,40 +45,40 @@ namespace UriShell.Shell
         }
 
         public void AddUriModuleItemResolver(UriModuleItemResolverKey key, IUriModuleItemResolver uriModuleItemResolver)
-		{
-			if (key == null)
-			{
-				throw new ArgumentNullException(nameof(key));
-			}
-			if (uriModuleItemResolver == null)
-			{
-				throw new ArgumentNullException(nameof(uriModuleItemResolver));
-			}
+        {
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
+            if (uriModuleItemResolver == null)
+            {
+                throw new ArgumentNullException(nameof(uriModuleItemResolver));
+            }
 
             _uriModuleItemResolvers.Add(key, uriModuleItemResolver);
         }
 
         public IShellResolve Resolve(Uri uri, params object[] attachments)
-		{
-			if (uri == null)
-			{
-				throw new ArgumentNullException(nameof(uri));
-			}
-			if (attachments == null)
-			{
-				throw new ArgumentNullException(nameof(attachments));
-			}
+        {
+            if (uri == null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+            if (attachments == null)
+            {
+                throw new ArgumentNullException(nameof(attachments));
+            }
 
             return _shellResolveFactory(uri, attachments);
         }
 
         public bool IsResolvedOpen(object resolved)
         {
-			if (resolved == null)
-			{
-				throw new ArgumentNullException(nameof(resolved));
-			}
-			
+            if (resolved == null)
+            {
+                throw new ArgumentNullException(nameof(resolved));
+            }
+
             return _uriResolvedObjectHolder.Contains(resolved);
         }
 
@@ -94,7 +94,7 @@ namespace UriShell.Shell
 
         public int GetResolvedId(object resolved)
         {
-			CheckResolvedOpened(resolved);
+            CheckResolvedOpened(resolved);
 
             return _uriResolvedObjectHolder.GetMetadata(resolved).ResolvedId;
         }
@@ -124,7 +124,7 @@ namespace UriShell.Shell
                 throw new ArgumentNullException(nameof(hyperlink));
             }
 
-            var matches = Shell._HyperLinkRegex.Matches(hyperlink);
+            var matches = _HyperLinkRegex.Matches(hyperlink);
             if (matches.Count == 0)
             {
                 return null;
@@ -151,11 +151,11 @@ namespace UriShell.Shell
 
         public ShellHyperlink CreateHyperlink(Uri uri)
         {
-			if (uri == null)
-			{
-				throw new ArgumentNullException(nameof(uri));
-			}
-			
+            if (uri == null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
             var builder = new ShellUriBuilder(uri);
             var title = builder.Parameters["title"];
 

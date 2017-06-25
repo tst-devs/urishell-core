@@ -50,7 +50,7 @@ namespace UriShell.Shell
 			get
 			{
 				var ub = new UriBuilder(
-					UriShellSettings.Instance.Scheme,
+					UriShellSettings.Scheme,
 					Placement,
 					OwnerId,
 					$"/{Module}/{Item}");

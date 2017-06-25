@@ -8,7 +8,7 @@ namespace UriShell.Shell
 	{
 		public ShellUriBuilderTest()
 		{
-            UriShellSettings.Initialize(b => { b.Scheme = "tst"; });
+            UriShellSettings.Scheme = "tst";
 		}
 
         [Fact]

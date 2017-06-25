@@ -17,10 +17,10 @@ namespace UriShell.Shell
         private IUriResolvedObjectHolder _uriResolvedObjectHolder =
 			Substitute.For<IUriResolvedObjectHolder>();
 
-		public ShellTest()
-		{
-			UriShellSettings.Initialize(b => { b.Scheme = "tst"; });
-		}
+        public ShellTest()
+        {
+            UriShellSettings.Scheme = "tst";
+        }
 
         private Shell CreateShell(
             ShellResolveFactory shellResolveFactory = null)
