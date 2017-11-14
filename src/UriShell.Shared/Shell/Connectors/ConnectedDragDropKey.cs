@@ -1,7 +1,7 @@
 ﻿namespace UriShell.Shell.Connectors
 {
-	public class ConnectedDragDropKey<TFormat>
-	{
-		
-	}
+    public class ConnectedDragDropKey<TFormat>
+    {
+
+    }
 }

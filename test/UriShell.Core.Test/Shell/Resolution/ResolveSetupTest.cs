@@ -165,26 +165,26 @@ namespace UriShell.Shell.Resolution
         [Fact]
         public void InvokesOnFinishedOnceWhenShellDisposableDisposedAfterOpenOrThrow()
         {
-			object receivedInOnFinished = null;
+            object receivedInOnFinished = null;
 
-			var passedToPlayer = new object();
-			var onFinishedCount = 0;
+            var passedToPlayer = new object();
+            var onFinishedCount = 0;
 
-			var action = new Action<object>(
-				o =>
-				{
-					receivedInOnFinished = o;
-					onFinishedCount++;
-				});
-			var setup = new ResolveSetup<object>(new ResolveSetupArgs(
-				_resolveOpen,
-				p => p(_uri, passedToPlayer, _logger, _disposable)));
+            var action = new Action<object>(
+                o =>
+                {
+                    receivedInOnFinished = o;
+                    onFinishedCount++;
+                });
+            var setup = new ResolveSetup<object>(new ResolveSetupArgs(
+                _resolveOpen,
+                p => p(_uri, passedToPlayer, _logger, _disposable)));
 
-			setup.OnFinished(action).OpenOrThrow();
-			_disposable.Dispose();
+            setup.OnFinished(action).OpenOrThrow();
+            _disposable.Dispose();
 
-			onFinishedCount.Should().Be(1);
-			receivedInOnFinished.Should().Be(passedToPlayer);
+            onFinishedCount.Should().Be(1);
+            receivedInOnFinished.Should().Be(passedToPlayer);
         }
 
         [Fact]

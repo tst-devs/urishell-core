@@ -2,8 +2,8 @@
 
 namespace UriShell.Shell
 {
-	public interface IViewModelViewMatcher
-	{
-		IViewModelViewMatch Match(object viewModel);
-	}
+    public interface IViewModelViewMatcher
+    {
+        IViewModelViewMatch Match(object viewModel);
+    }
 }

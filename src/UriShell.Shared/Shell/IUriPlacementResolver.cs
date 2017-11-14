@@ -2,8 +2,8 @@
 
 namespace UriShell.Shell
 {
-	public interface IUriPlacementResolver
-	{
-		IUriPlacementConnector Resolve(object resolved, Uri uri, UriAttachmentSelector attachmentSelector);
-	}
+    public interface IUriPlacementResolver
+    {
+        IUriPlacementConnector Resolve(object resolved, Uri uri, UriAttachmentSelector attachmentSelector);
+    }
 }

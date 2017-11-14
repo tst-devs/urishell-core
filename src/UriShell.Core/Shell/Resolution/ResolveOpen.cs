@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 namespace UriShell.Shell.Resolution
 {
     public sealed class ResolveOpen : IShellResolve
-	{
+    {
         private readonly Uri _unresolvedUri;
 
         private readonly object[] _attachments;
@@ -120,7 +120,7 @@ namespace UriShell.Shell.Resolution
                 return resolver.Resolve(uri, attachmentSelector);
             }
 
-			throw new UriResolutionException(
+            throw new UriResolutionException(
                 uri, $"Can't resolve URI, because a proper {nameof(IUriModuleItemResolver)} has not been registered.");
         }
 

@@ -117,20 +117,20 @@ namespace UriShell.Shell.Resolution
                 .Select(_ => new object())
                 .ToList();
 
-			Task.Run(() =>
-	            {
-	                var ids = new HashSet<int>();
-	                var holder = new UriResolvedObjectHolder();
+            Task.Run(() =>
+                {
+                    var ids = new HashSet<int>();
+                    var holder = new UriResolvedObjectHolder();
 
-	                foreach (var obj in objects)
-	                {
-	                    holder.Add(obj, _uriResolvedMetadata);
+                    foreach (var obj in objects)
+                    {
+                        holder.Add(obj, _uriResolvedMetadata);
 
-	                    var id = holder.GetMetadata(obj).ResolvedId;
-	                    ids.Add(id).Should().BeTrue();
-	                }
-	            })
-	            .Wait(GenerationTimeout).Should().BeTrue();
+                        var id = holder.GetMetadata(obj).ResolvedId;
+                        ids.Add(id).Should().BeTrue();
+                    }
+                })
+                .Wait(GenerationTimeout).Should().BeTrue();
         }
 
         [Fact]
@@ -141,34 +141,34 @@ namespace UriShell.Shell.Resolution
                 .Select(_ => new object())
                 .ToList();
 
-			Task.Run(() =>
-	            {
-	                var holder = new UriResolvedObjectHolder();
+            Task.Run(() =>
+                {
+                    var holder = new UriResolvedObjectHolder();
 
-	                foreach (var obj in objects)
-	                {
-	                    holder.Add(obj, _uriResolvedMetadata);
-	                }
+                    foreach (var obj in objects)
+                    {
+                        holder.Add(obj, _uriResolvedMetadata);
+                    }
 
-	                holder.Invoking(h => h.Add(new object(), _uriResolvedMetadata))
-	                      .ShouldThrow<InvalidOperationException>();
-	            })
+                    holder.Invoking(h => h.Add(new object(), _uriResolvedMetadata))
+                          .ShouldThrow<InvalidOperationException>();
+                })
                 .Wait(GenerationTimeout).Should().BeTrue();
         }
 
         [Fact]
         public void ReuseIdAfterObjectRemoving()
         {
-			var object1 = new object();
-			var object2 = new object();
+            var object1 = new object();
+            var object2 = new object();
 
-			var objects = Enumerable
+            var objects = Enumerable
                 .Range(0, UriResolvedObjectHolder.MaxResolvedId - 1)
-				.Select(_ => new object())
-				.Concat(new object[] { object1, object2 })
+                .Select(_ => new object())
+                .Concat(new object[] { object1, object2 })
                 .ToList();
 
-			Task.Run(() =>
+            Task.Run(() =>
                 {
                     var holder = new UriResolvedObjectHolder();
 

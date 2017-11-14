@@ -16,7 +16,7 @@ namespace UriShell.Shell
 
         public override bool Equals(object obj)
         {
-			if (obj != null && obj.GetType() == GetType())
+            if (obj != null && obj.GetType() == GetType())
             {
                 return Equals((UriModuleItemResolverKey)obj);
             }
@@ -36,7 +36,7 @@ namespace UriShell.Shell
                 return true;
             }
 
-			return Module == other.Module && Item == other.Item;
+            return Module == other.Module && Item == other.Item;
         }
 
         public override int GetHashCode()

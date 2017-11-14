@@ -15,7 +15,7 @@ namespace UriShell.Shell.Resolution
                 {
                     throw new ArgumentNullException(nameof(resolved));
                 }
-                
+
                 if (_connectors.TryGetValue(resolved, out var connector))
                 {
                     return connector;
@@ -26,22 +26,22 @@ namespace UriShell.Shell.Resolution
             set
             {
                 if (resolved == null)
-				{
-					throw new ArgumentNullException(nameof(resolved));
-				}
+                {
+                    throw new ArgumentNullException(nameof(resolved));
+                }
 
-				_connectors[resolved] = value ?? throw new ArgumentNullException(nameof(value));
+                _connectors[resolved] = value ?? throw new ArgumentNullException(nameof(value));
             }
         }
 
         public void Remove(object resolved)
         {
-			if (resolved == null)
-			{
-				throw new ArgumentNullException(nameof(resolved));
-			}
+            if (resolved == null)
+            {
+                throw new ArgumentNullException(nameof(resolved));
+            }
 
-			if (!_connectors.Remove(resolved))
+            if (!_connectors.Remove(resolved))
             {
                 throw ResolvedNotFoundException(resolved);
             }

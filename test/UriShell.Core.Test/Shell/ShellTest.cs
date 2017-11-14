@@ -15,7 +15,7 @@ namespace UriShell.Shell
     public class ShellTest
     {
         private IUriResolvedObjectHolder _uriResolvedObjectHolder =
-			Substitute.For<IUriResolvedObjectHolder>();
+            Substitute.For<IUriResolvedObjectHolder>();
 
         public ShellTest()
         {
@@ -264,19 +264,24 @@ namespace UriShell.Shell
             hyperlink.Icon.Should().Be(new Uri("http://ya.ru/logo.png"));
         }
 
-        [Fact]
-        public void ThrowsWhenCreatesHyperlinkFromUriWithRelativeIcon()
-        {
-            var uri = new Uri(string.Format(
-                "tst://placement:1111/module/item?title={0}&icon={1}",
-                Uri.EscapeDataString("Test Title"),
-                Uri.EscapeDataString("/images/logo.png")));
-
-            var shell = CreateShell();
-
-            shell.Invoking(s => s.CreateHyperlink(uri))
-                 .ShouldThrow<ArgumentException>();
-        }
+        //
+        // [Mx] The test is not valid at that moment, because "/" is valid
+        // starting point of absolute URI in Unix. For details:
+        // https://github.com/dotnet/corefx/issues/22098
+        // 
+        //[Fact]
+        //public void ThrowsWhenCreatesHyperlinkFromUriWithRelativeIcon()
+        //{
+        //    var uri = new Uri(string.Format(
+        //        "tst://placement:1111/module/item?title={0}&icon={1}",
+        //        Uri.EscapeDataString("Test Title"),
+        //        Uri.EscapeDataString("/images/logo.png")));
+        //
+        //    var shell = CreateShell();
+        //
+        //    shell.Invoking(s => s.CreateHyperlink(uri))
+        //         .ShouldThrow<ArgumentException>();
+        //}
 
         [Fact]
         public void UpdatesResolvedUri()

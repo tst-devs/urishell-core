@@ -18,7 +18,7 @@ namespace UriShell.Shell
 
         public ShellUriBuilder(Uri uri)
         {
-            if (uri == null) 
+            if (uri == null)
             {
                 throw new ArgumentNullException(nameof(uri));
             }
@@ -43,22 +43,22 @@ namespace UriShell.Shell
         public static Writer StartUri()
         {
             return new Writer();
-		}
+        }
 
-		public Uri Uri
-		{
-			get
-			{
-				var ub = new UriBuilder(
-					UriShellSettings.Scheme,
-					Placement,
-					OwnerId,
-					$"/{Module}/{Item}");
-				ub.Query = ParametersToUriQuery();
+        public Uri Uri
+        {
+            get
+            {
+                var ub = new UriBuilder(
+                    UriShellSettings.Scheme,
+                    Placement,
+                    OwnerId,
+                    $"/{Module}/{Item}");
+                ub.Query = ParametersToUriQuery();
 
-				return ub.Uri;
-			}
-		}
+                return ub.Uri;
+            }
+        }
 
         public string Placement
         {
@@ -98,88 +98,88 @@ namespace UriShell.Shell
 
         public IDictionary<string, string> Parameters { get; } = new Dictionary<string, string>();
 
-		public int OwnerId { get; set; }
+        public int OwnerId { get; set; }
 
-		private void ParametersFromUriQuery(string query)
-		{
+        private void ParametersFromUriQuery(string query)
+        {
             if (string.IsNullOrEmpty(query) || query == "?")
-			{
-				return;
-			}
+            {
+                return;
+            }
 
-			var scanIndex = 0;
-			if (query[0] == '?')
-			{
-				scanIndex = 1;
-			}
+            var scanIndex = 0;
+            if (query[0] == '?')
+            {
+                scanIndex = 1;
+            }
 
-			var textLength = query.Length;
-			var equalIndex = query.IndexOf('=');
-			if (equalIndex == -1)
-			{
-				equalIndex = textLength;
-			}
+            var textLength = query.Length;
+            var equalIndex = query.IndexOf('=');
+            if (equalIndex == -1)
+            {
+                equalIndex = textLength;
+            }
 
-			while (scanIndex < textLength)
-			{
-				var delimiterIndex = query.IndexOf('&', scanIndex);
-				if (delimiterIndex == -1)
-				{
-					delimiterIndex = textLength;
-				}
+            while (scanIndex < textLength)
+            {
+                var delimiterIndex = query.IndexOf('&', scanIndex);
+                if (delimiterIndex == -1)
+                {
+                    delimiterIndex = textLength;
+                }
 
-				if (equalIndex < delimiterIndex)
-				{
-					while (scanIndex != equalIndex && char.IsWhiteSpace(query[scanIndex]))
-					{
-						scanIndex++;
-					}
+                if (equalIndex < delimiterIndex)
+                {
+                    while (scanIndex != equalIndex && char.IsWhiteSpace(query[scanIndex]))
+                    {
+                        scanIndex++;
+                    }
 
-					var name = query
+                    var name = query
                         .Substring(scanIndex, equalIndex - scanIndex)
                         .Replace('+', ' ');
-					var value = query
+                    var value = query
                         .Substring(equalIndex + 1, delimiterIndex - equalIndex - 1)
                         .Replace('+', ' ');
-                    
+
                     Parameters[Uri.UnescapeDataString(name)] = Uri.UnescapeDataString(value);
 
-					equalIndex = query.IndexOf('=', delimiterIndex);
-					if (equalIndex == -1)
-					{
-						equalIndex = textLength;
-					}
-				}
-				else
-				{
-					if (delimiterIndex > scanIndex)
-					{
-						Parameters[query.Substring(scanIndex, delimiterIndex - scanIndex)] = string.Empty;
-					}
-				}
+                    equalIndex = query.IndexOf('=', delimiterIndex);
+                    if (equalIndex == -1)
+                    {
+                        equalIndex = textLength;
+                    }
+                }
+                else
+                {
+                    if (delimiterIndex > scanIndex)
+                    {
+                        Parameters[query.Substring(scanIndex, delimiterIndex - scanIndex)] = string.Empty;
+                    }
+                }
 
-				scanIndex = delimiterIndex + 1;
-			}
-		}
+                scanIndex = delimiterIndex + 1;
+            }
+        }
 
-		private string ParametersToUriQuery()
-		{
-			if (Parameters.Count == 0)
-			{
-				return string.Empty;
-			}
+        private string ParametersToUriQuery()
+        {
+            if (Parameters.Count == 0)
+            {
+                return string.Empty;
+            }
 
-			var sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var p in Parameters)
-			{
-				if (sb.Length > 0)
-				{
-					sb.Append('&');
-				}
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Append('&');
+                }
                 sb.Append(string.Concat(p.Key, "=", Uri.EscapeDataString(p.Value)));
-			}
+            }
 
-			return sb.ToString();
-		}
+            return sb.ToString();
+        }
     }
 }

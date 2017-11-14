@@ -2,20 +2,20 @@
 
 namespace UriShell.Extensions
 {
-	public static class UriExtensions
-	{
-		public static bool IsUriShell(this Uri uri)
-		{
+    public static class UriExtensions
+    {
+        public static bool IsUriShell(this Uri uri)
+        {
             if (uri == null)
             {
                 throw new ArgumentException(nameof(uri));
             }
-			if (!uri.IsAbsoluteUri)
-			{
+            if (!uri.IsAbsoluteUri)
+            {
                 throw new InvalidOperationException("Can't validate the scheme; URI isn't absolute.");
-			}
+            }
 
-			return string.CompareOrdinal(uri.Scheme, UriShellSettings.Scheme) == 0;
-		}
-	}
+            return string.CompareOrdinal(uri.Scheme, UriShellSettings.Scheme) == 0;
+        }
+    }
 }

@@ -2,10 +2,10 @@
 
 namespace UriShell.Shell.Resolution
 {
-	public interface IUriResolutionCustomization
-	{
-		IReadOnlyDictionary<UriModuleItemResolverKey, IUriModuleItemResolver> ModuleItemResolvers { get; }
+    public interface IUriResolutionCustomization
+    {
+        IReadOnlyDictionary<UriModuleItemResolverKey, IUriModuleItemResolver> ModuleItemResolvers { get; }
 
-		IEnumerable<IUriPlacementResolver> PlacementResolvers { get; }
-	}
+        IEnumerable<IUriPlacementResolver> PlacementResolvers { get; }
+    }
 }

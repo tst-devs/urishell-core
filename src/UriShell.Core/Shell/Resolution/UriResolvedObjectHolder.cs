@@ -5,26 +5,26 @@ using System.Collections.Generic;
 namespace UriShell.Shell.Resolution
 {
     public sealed class UriResolvedObjectHolder : IUriResolvedObjectHolder
-	{
+    {
         public const int MaxResolvedId = 2 << 12;
-        
-		private readonly Queue<int> _idPool;
+
+        private readonly Queue<int> _idPool;
 
         private readonly Dictionary<object, UriResolvedMetadata> _byResolved = new Dictionary<object, UriResolvedMetadata>();
-        
+
         private readonly Dictionary<int, object> _byId = new Dictionary<int, object>();
 
         public UriResolvedObjectHolder()
         {
             var ids = new int[MaxResolvedId + 1];
             for (var i = 0; i < ids.Length; i++)
-			{
+            {
                 ids[i] = i;
-			}
+            }
 
             _idPool = new Queue<int>(ids.Length);
 
-			var random = new Random();
+            var random = new Random();
             for (var i = ids.Length; i > 0; i--)
             {
                 var index = random.Next(i);
@@ -38,22 +38,22 @@ namespace UriShell.Shell.Resolution
 
         public void Add(object resolved, UriResolvedMetadata metadata)
         {
-            if (resolved == null) 
+            if (resolved == null)
             {
-                throw new ArgumentNullException(nameof(resolved));    
+                throw new ArgumentNullException(nameof(resolved));
             }
-			if (metadata.Uri == null) 
+            if (metadata.Uri == null)
             {
-                throw new ArgumentNullException(nameof(metadata.Uri));    
+                throw new ArgumentNullException(nameof(metadata.Uri));
             }
-            if (metadata.Disposable == null) 
+            if (metadata.Disposable == null)
             {
-                throw new ArgumentNullException(nameof(metadata.Disposable));    
+                throw new ArgumentNullException(nameof(metadata.Disposable));
             }
-			if (_idPool.Count == 0)
-			{
-				throw new InvalidOperationException("Amount of URI, that could be opened, is exceeded.");
-			}
+            if (_idPool.Count == 0)
+            {
+                throw new InvalidOperationException("Amount of URI, that could be opened, is exceeded.");
+            }
 
             var id = _idPool.Dequeue();
             try
@@ -72,10 +72,10 @@ namespace UriShell.Shell.Resolution
 
         public void Remove(object resolved)
         {
-			if (resolved == null)
-			{
-				throw new ArgumentNullException(nameof(resolved));
-			}
+            if (resolved == null)
+            {
+                throw new ArgumentNullException(nameof(resolved));
+            }
 
             if (_byResolved.TryGetValue(resolved, out var metadata))
             {
@@ -109,11 +109,11 @@ namespace UriShell.Shell.Resolution
 
         public UriResolvedMetadata GetMetadata(object resolved)
         {
-			if (resolved == null)
-			{
-				throw new ArgumentNullException(nameof(resolved));
-			}
-            
+            if (resolved == null)
+            {
+                throw new ArgumentNullException(nameof(resolved));
+            }
+
             if (_byResolved.TryGetValue(resolved, out var metadata))
             {
                 return metadata;

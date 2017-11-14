@@ -15,7 +15,7 @@ namespace UriShell.Shell.Resolution
 
         private Action<TResolved> _onFinished;
 
-		public ResolveSetup(ResolveSetupArgs args)
+        public ResolveSetup(ResolveSetupArgs args)
         {
             if (args == null)
             {
@@ -92,7 +92,7 @@ namespace UriShell.Shell.Resolution
                 uri, typeof(TResolved).Name, resolvedTypeInfo?.Name ?? "(null)");
 
             cast = default(TResolved);
-			return false;
+            return false;
         }
     }
 }

@@ -50,7 +50,7 @@ namespace UriShell.Shell.Connectors
 
             CheckActiveIs(true);
 
-			var dragged = _connected;
+            var dragged = _connected;
 
             target.Connect(dragged);
             _uriDisconnectTable[dragged] = target;
@@ -78,14 +78,14 @@ namespace UriShell.Shell.Connectors
 
         public TFormat GetData<TFormat>(ConnectedDragDropKey<TFormat> key)
         {
-			if (key == null)
-			{
-				throw new ArgumentNullException(nameof(key));
-			}
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
 
-			CheckActiveIs(true);
-			
-            if (_data.TryGetValue(key, out var data)) 
+            CheckActiveIs(true);
+
+            if (_data.TryGetValue(key, out var data))
             {
                 return (TFormat)data;
             }
@@ -95,12 +95,12 @@ namespace UriShell.Shell.Connectors
 
         public bool GetDataPresent<TFormat>(ConnectedDragDropKey<TFormat> key)
         {
-			if (key == null)
-			{
-				throw new ArgumentNullException(nameof(key));
-			}
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
+            }
 
-			return _data.ContainsKey(key);
+            return _data.ContainsKey(key);
         }
 
         void IUriPlacementConnector.Connect(object resolved)
