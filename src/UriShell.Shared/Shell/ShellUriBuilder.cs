@@ -6,19 +6,11 @@ namespace UriShell.Shell
 {
     public sealed partial class ShellUriBuilder
     {
-        public const int MinResolvedId = ushort.MinValue;
-
-        public static readonly int MaxResolvedId = ushort.MaxValue;
-
         private string _placement = string.Empty;
-
-        private int _ownerId;
 
         private string _module = string.Empty;
 
         private string _item = string.Empty;
-
-        private readonly Dictionary<string, string> _parameters = new Dictionary<string, string>();
 
         public ShellUriBuilder()
         {
@@ -26,7 +18,7 @@ namespace UriShell.Shell
 
         public ShellUriBuilder(Uri uri)
         {
-            if (uri == null) 
+            if (uri == null)
             {
                 throw new ArgumentNullException(nameof(uri));
             }
@@ -51,22 +43,22 @@ namespace UriShell.Shell
         public static Writer StartUri()
         {
             return new Writer();
-		}
+        }
 
-		public Uri Uri
-		{
-			get
-			{
-				var ub = new UriBuilder(
-					Settings.Instance.Scheme,
-					Placement,
-					OwnerId,
-					$"/{Module}/{Item}");
-				ub.Query = ParametersToUriQuery();
+        public Uri Uri
+        {
+            get
+            {
+                var ub = new UriBuilder(
+                    UriShellSettings.Scheme,
+                    Placement,
+                    OwnerId,
+                    $"/{Module}/{Item}");
+                ub.Query = ParametersToUriQuery();
 
-				return ub.Uri;
-			}
-		}
+                return ub.Uri;
+            }
+        }
 
         public string Placement
         {
@@ -77,19 +69,6 @@ namespace UriShell.Shell
             set
             {
                 _placement = value ?? string.Empty;
-            }
-        }
-
-        public int OwnerId
-        {
-            get
-            {
-                return _ownerId;
-            }
-            set
-            {
-                CheckOwnerId(value);
-                _ownerId = value;
             }
         }
 
@@ -117,92 +96,90 @@ namespace UriShell.Shell
             }
         }
 
-        public IDictionary<string, string> Parameters
+        public IDictionary<string, string> Parameters { get; } = new Dictionary<string, string>();
+
+        public int OwnerId { get; set; }
+
+        private void ParametersFromUriQuery(string query)
         {
-            get
+            if (string.IsNullOrEmpty(query) || query == "?")
             {
-                return _parameters;
-            }
-		}
-
-        internal static void CheckOwnerId(int ownerId)
-        {
-			if (ownerId >= MinResolvedId && ownerId <= MaxResolvedId)
-			{
                 return;
-			}
+            }
 
-            throw new ArgumentOutOfRangeException(nameof(OwnerId));
+            var scanIndex = 0;
+            if (query[0] == '?')
+            {
+                scanIndex = 1;
+            }
+
+            var textLength = query.Length;
+            var equalIndex = query.IndexOf('=');
+            if (equalIndex == -1)
+            {
+                equalIndex = textLength;
+            }
+
+            while (scanIndex < textLength)
+            {
+                var delimiterIndex = query.IndexOf('&', scanIndex);
+                if (delimiterIndex == -1)
+                {
+                    delimiterIndex = textLength;
+                }
+
+                if (equalIndex < delimiterIndex)
+                {
+                    while (scanIndex != equalIndex && char.IsWhiteSpace(query[scanIndex]))
+                    {
+                        scanIndex++;
+                    }
+
+                    var name = query
+                        .Substring(scanIndex, equalIndex - scanIndex)
+                        .Replace('+', ' ');
+                    var value = query
+                        .Substring(equalIndex + 1, delimiterIndex - equalIndex - 1)
+                        .Replace('+', ' ');
+
+                    Parameters[Uri.UnescapeDataString(name)] = Uri.UnescapeDataString(value);
+
+                    equalIndex = query.IndexOf('=', delimiterIndex);
+                    if (equalIndex == -1)
+                    {
+                        equalIndex = textLength;
+                    }
+                }
+                else
+                {
+                    if (delimiterIndex > scanIndex)
+                    {
+                        Parameters[query.Substring(scanIndex, delimiterIndex - scanIndex)] = string.Empty;
+                    }
+                }
+
+                scanIndex = delimiterIndex + 1;
+            }
         }
 
-		private void ParametersFromUriQuery(string query)
-		{
-			if (query.Length == 0)
-			{
-				return;
-			}
+        private string ParametersToUriQuery()
+        {
+            if (Parameters.Count == 0)
+            {
+                return string.Empty;
+            }
 
-			var i = 1;
+            var sb = new StringBuilder();
+            foreach (var p in Parameters)
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Append('&');
+                }
+                sb.Append(string.Concat(p.Key, "=", Uri.EscapeDataString(p.Value)));
+            }
 
-			while (i < query.Length)
-			{
-				var si = i;
-				var ti = -1;
-
-				while (i < query.Length)
-				{
-					var ch = query[i];
-
-					if (ch == '&')
-					{
-						break;
-					}
-
-					if (ch == '=' && ti < 0)
-					{
-						ti = i;
-					}
-
-					i++;
-				}
-
-				string name = null;
-				string value;
-
-				if (ti >= 0)
-				{
-					name = query.Substring(si, ti - si);
-					value = query.Substring(ti + 1, i - ti - 1);
-				}
-				else
-				{
-					value = query.Substring(si, i - si);
-				}
-
-				_parameters.Add(name, Uri.UnescapeDataString(value));
-
-				i++;
-			}
-		}
-
-		private string ParametersToUriQuery()
-		{
-			if (_parameters.Count == 0)
-			{
-				return string.Empty;
-			}
-
-			var sb = new StringBuilder();
-			foreach (string key in _parameters.Keys)
-			{
-				if (sb.Length > 0)
-				{
-					sb.Append('&');
-				}
-				sb.AppendFormat("{0}={1}", key, Uri.EscapeDataString(_parameters[key]));
-			}
-
-			return sb.ToString();
-		}
+            return sb.ToString();
+        }
     }
 }

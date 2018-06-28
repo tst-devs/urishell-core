@@ -3,25 +3,25 @@ using UriShell.Shell.Registration;
 
 namespace UriShell.Shell
 {
-	public interface IShell
-	{
-		void AddUriPlacementResolver(IUriPlacementResolver uriPlacementResolver);
+    public interface IShell
+    {
+        void AddUriPlacementResolver(IUriPlacementResolver uriPlacementResolver);
 
-		void AddUriModuleItemResolver(UriModuleItemResolverKey key, IUriModuleItemResolver uriModuleItemResolver);
+        void AddUriModuleItemResolver(UriModuleItemResolverKey key, IUriModuleItemResolver uriModuleItemResolver);
 
-		IShellResolve Resolve(Uri uri, params object[] attachments);
+        IShellResolve Resolve(Uri uri, params object[] attachments);
 
-		bool IsResolvedOpen(object resolved);
+        bool IsResolvedOpen(object resolved);
 
-		int GetResolvedId(object resolved);
+        int GetResolvedId(object resolved);
 
-		Uri GetResolvedUri(object resolved);
+        Uri GetResolvedUri(object resolved);
 
-		void CloseResolved(object resolved);
+        void CloseResolved(object resolved);
 
-		ShellHyperlink TryParseHyperlink(string hyperlink, int ownerId);
+        ShellHyperlink TryParseHyperlink(string hyperlink, int ownerId);
 
-		ShellHyperlink CreateHyperlink(Uri uri);
+        ShellHyperlink CreateHyperlink(Uri uri);
 
         void UpdateResolvedUri(object resolved, Uri newUri);
     }

@@ -2,10 +2,10 @@
 
 namespace UriShell.Shell.Registration
 {
-	public interface IShellResolveOpen
-	{
-		IDisposable Open();
+    public interface IShellResolveOpen
+    {
+        IDisposable Open();
 
-		IDisposable OpenOrThrow();
-	}
+        IDisposable OpenOrThrow();
+    }
 }

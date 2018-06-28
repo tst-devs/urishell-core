@@ -2,8 +2,8 @@
 
 namespace UriShell.Shell
 {
-	public interface IUriModuleItemResolver
-	{
-		object Resolve(Uri uri, UriAttachmentSelector attachmentSelector);
-	}
+    public interface IUriModuleItemResolver
+    {
+        object Resolve(Uri uri, UriAttachmentSelector attachmentSelector);
+    }
 }

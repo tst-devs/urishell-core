@@ -1,4 +1,4 @@
 ﻿namespace UriShell.Shell
 {
-	public delegate object UriAttachmentSelector(string id);
+    public delegate object UriAttachmentSelector(string id);
 }

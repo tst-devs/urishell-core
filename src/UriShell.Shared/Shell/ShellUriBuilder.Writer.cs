@@ -10,12 +10,12 @@ namespace UriShell.Shell
 
             internal Writer()
             {
-			}
+            }
 
-			public Uri End()
-			{
-				return _builder.Uri;
-			}
+            public Uri End()
+            {
+                return _builder.Uri;
+            }
 
             public Writer Placement(string placement)
             {

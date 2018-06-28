@@ -2,8 +2,8 @@
 
 namespace UriShell.Shell
 {
-	[AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
-	public class ViewModelAttribute : Attribute
-	{
-	}
+    [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Property)]
+    public class ViewModelAttribute : Attribute
+    {
+    }
 }
